@@ -5,12 +5,11 @@ import React,{
 	View,
 	Text
 } from 'react-native';
-import Common from './common';
 
 export default class NavigatorBar extends Component {
 	render(){
 		return (
-			<View style={styles.navigator}>
+			<View style={[styles.navigator,{backgroundColor:this.props.bgColor}]}>
 				<Text style={styles.title}>{this.props.title}</Text>
 			</View>
 		);
@@ -20,8 +19,7 @@ export default class NavigatorBar extends Component {
 const styles = StyleSheet.create({
 	navigator:{
 		height:50,
-		justifyContent:'center',
-		backgroundColor:Common.defaultProps.color
+		justifyContent:'center'
 	},
 	title:{
 		color:'#FFF',

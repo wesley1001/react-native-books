@@ -17,7 +17,7 @@ export default class HeadList extends Component {
 					<Text style={styles.title_text}>{this.props.title}</Text>
 					<Text style={styles.more}>更多</Text>
 				</View>
-				<View style={styles.list}>
+				<View style={[styles.list,this.props.horizontal && {flexDirection:'row'}]}>
 					{this.props.items.map(this.props.renderItem)}
 				</View>
 			</View>
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
 		width:50,
 	},
 	list:{
-		flexDirection:'row',
 		marginTop:5,
 		paddingBottom:10
 	}

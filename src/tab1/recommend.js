@@ -4,7 +4,8 @@ import React,{
 	StyleSheet,
 	View,
 	Image,
-	Text
+	Text,
+	ScrollView
 } from 'react-native';
 
 import Common from './../common';
@@ -21,28 +22,48 @@ export default class Recommend extends Component {
 		return (
 			<View style={styles.content}>
 				<Header items={Common.defaultProps.header} onPress={(e=>console.log(e))} />
-				<View>
-					<Image style={{height:200}} source={{uri: 'http://78rbm4.com2.z0.glb.qiniucdn.com/62cfa23a823d43729f42b3b31c2581f6_720x238.jpg'}} />
-				</View>
-				<View style={{height:20}}></View>
-				<HeadList title={'小编推荐'} items={data} renderItem={this._onRenderItem} />
+				<ScrollView style={{}}>
+				  	<View>
+						<Image style={{height:200}} source={{uri: 'http://78rbm4.com2.z0.glb.qiniucdn.com/62cfa23a823d43729f42b3b31c2581f6_720x238.jpg'}} />
+					</View>
+					<View style={{height:20}}></View>
+					<HeadList title={'小编推荐'} items={data} horizontal={true} renderItem={this._onRenderItem} />
+					<View style={{height:20}}></View>
+					<HeadList title={'听小说'} items={data} renderItem={this._onRenderItem2} />
+				</ScrollView>
 			</View>
 		);
 	}
 	_onRenderItem(item,i){
-			return (
-				<View key={i} style={{flex:1}}>
-					<Image style={{width:120,height:100}} source={{uri: item.pic}} />
-					<Text style={{marginTop:5}}>{item.name}</Text>
-					<Text>{item.auth}</Text>
+		return (
+			<View key={i} style={{flex:1}}>
+				<Image style={{width:120,height:100}} source={{uri: item.pic}} />
+				<Text style={{marginTop:5}}>{item.name}</Text>
+				<Text>{item.auth}</Text>
+			</View>
+		);
+	}
+	_onRenderItem2(item,i){
+		return (
+			<View key={i} style={{flexDirection:'row',marginBottom:10}}>
+				<Image style={{width:60,height:70}} source={{uri: item.pic}} />
+				<View style={{marginLeft:10}}>
+					<Text style={{fontSize:18,fontWeight:'bold',color:'#000'}}>{item.name}</Text>
+					<Text style={{fontSize:16}}>{item.auth}</Text>
+					<View style={{flexDirection:'row'}}>
+						<Text style={{fontSize:12}}>500集</Text>
+						<Text style={{fontSize:12}}>500赞</Text>
+					</View>
 				</View>
-			);
-		}
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
 	content:{
 		flex:1,
-		backgroundColor:'#EEE'
+		backgroundColor:'#EEE',
+		marginBottom:50
 	}
 });
