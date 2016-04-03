@@ -11,6 +11,7 @@ import React,{
 import Common from './../common';
 import Header from './head';
 import HeadList from './headList';
+import NavigatorBar from './../libs/navigator';
 
 export default class Recommend extends Component {
 	render(){
@@ -21,6 +22,7 @@ export default class Recommend extends Component {
 		];
 		return (
 			<View style={styles.content}>
+				<NavigatorBar title={this.props.title} bgColor={Common.defaultProps.color} />
 				<Header items={Common.defaultProps.header} onPress={(e=>console.log(e))} />
 				<ScrollView style={{}}>
 				  	<View>
@@ -64,6 +66,5 @@ const styles = StyleSheet.create({
 	content:{
 		flex:1,
 		backgroundColor:'#EEE',
-		marginBottom:50
 	}
 });

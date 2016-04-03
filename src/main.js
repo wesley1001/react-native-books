@@ -6,12 +6,11 @@ import React,{
 	Text,
 	Image
 } from 'react-native'
+import TabBar from 'react-native-tabbar';
 
 import Common from './common';
-import NavigatorBar from './libs/navigator';
-import TabBar from './libs/tabBar';
 
-import Recommend from './tab1/recommend';
+import Recommend from './tabs/recommend';
 
 export default class MainComponent extends Component {
 	constructor(props){
@@ -25,20 +24,15 @@ export default class MainComponent extends Component {
 		let Content = this.state.content;
 		return (
 			<View style={{flex:1}}>
-				<NavigatorBar title={this.props.title} bgColor={Common.defaultProps.color} />
-				<Content/>
-				<TabBar barTintColor={'#FFF'} tintColor={Common.defaultProps.color} ref='tabBar'>
-					<TabBar.Item title={'有声馆'} selected={true} icon={this.state.icon} onPress={e=>{}} />
-					<TabBar.Item title={'发现'} icon={this.state.icon}/>
-					<TabBar.Item />
-					<TabBar.Item title={'我的'} icon={this.state.icon}/>
-					<TabBar.Item title={'更多'} icon={this.state.icon}/>
+				<TabBar activeColor={Common.defaultProps.color}>
+					<TabBar.Item title={Common.defaultProps.tabs[0]}>
+						<Recommend title={Common.defaultProps.tabs[0]}/>
+					</TabBar.Item>
+					<TabBar.Item title={Common.defaultProps.tabs[1]}></TabBar.Item>
+					<TabBar.Item></TabBar.Item>
+					<TabBar.Item title={Common.defaultProps.tabs[2]}></TabBar.Item>
+					<TabBar.Item title={Common.defaultProps.tabs[3]}></TabBar.Item>
 				</TabBar>
-				<View style={styles.foot}>
-					<View style={styles.foot_out_circle}>
-						<Image style={styles.foot_in_circle} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
-					</View>
-				</View>
 			</View>
 		);
 	}

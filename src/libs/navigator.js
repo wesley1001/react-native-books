@@ -1,10 +1,12 @@
 'use strict'
 import React,{
+	Platform,
 	StyleSheet,
 	Component,
 	View,
 	Text
 } from 'react-native';
+
 
 export default class NavigatorBar extends Component {
 	render(){
@@ -18,6 +20,7 @@ export default class NavigatorBar extends Component {
 
 const styles = StyleSheet.create({
 	navigator:{
+		paddingTop:(Platform.OS==='ios')?20:0,
 		height:50,
 		justifyContent:'center'
 	},
