@@ -13,29 +13,25 @@ import Header from './head';
 import HeadList from './headList';
 import NavigatorBar from './../libs/navigator';
 
-export default class Recommend extends Component {
+class Recommend extends Component{
 	render(){
 		let data = [
 			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
 			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
 			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
 		];
-		return (
-			<View style={styles.content}>
-				<NavigatorBar title={this.props.title} bgColor={Common.defaultProps.color} />
-				<Header items={Common.defaultProps.header} onPress={(e=>console.log(e))} />
-				<ScrollView style={{}}>
-				  	<View>
-						<Image style={{height:200}} source={{uri: 'http://78rbm4.com2.z0.glb.qiniucdn.com/62cfa23a823d43729f42b3b31c2581f6_720x238.jpg'}} />
-					</View>
-					<View style={{height:20}}></View>
-					<HeadList title={'小编推荐'} items={data} horizontal={true} renderItem={this._onRenderItem} />
-					<View style={{height:20}}></View>
-					<HeadList title={'听小说'} items={data} renderItem={this._onRenderItem2} />
-				</ScrollView>
-			</View>
+		return(
+			<ScrollView style={{}}>
+			  	<View>
+					<Image style={{height:200}} source={{uri: 'http://78rbm4.com2.z0.glb.qiniucdn.com/62cfa23a823d43729f42b3b31c2581f6_720x238.jpg'}} />
+				</View>
+				<View style={{height:20}}></View>
+				<HeadList title={'小编推荐'} items={data} horizontal={true} renderItem={this._onRenderItem} />
+				<View style={{height:20}}></View>
+				<HeadList title={'听小说'} items={data} renderItem={this._onRenderItem2} />
+			</ScrollView>
 		);
-	}
+	}	
 	_onRenderItem(item,i){
 		return (
 			<View key={i} style={{flex:1}}>
@@ -60,11 +56,23 @@ export default class Recommend extends Component {
 			</View>
 		);
 	}
+
 }
 
-const styles = StyleSheet.create({
-	content:{
-		flex:1,
-		backgroundColor:'#EEE',
+export default class Shop extends Component {
+	constructor(props){
+		super(props);
+		this.state = {
+
+		}
 	}
-});
+	render(){
+		return (
+			<View  style={{flex:1,backgroundColor:'#EEE'}}>
+				<NavigatorBar title={this.props.title} bgColor={Common.defaultProps.color} />
+				<Header items={Common.defaultProps.header} onPress={e=>this.setState({'head':e})} />
+				<Recommend/>
+			</View>
+		);
+	}
+}
