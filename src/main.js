@@ -19,7 +19,6 @@ export default class MainComponent extends Component {
 		this.state = {
 			'icon':{uri: 'http://facebook.github.io/react/img/logo_og.png'}
 		}
-		console.log(React);
 	}
 	render() {
 		let Content = this.state.content;

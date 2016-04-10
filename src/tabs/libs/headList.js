@@ -6,7 +6,7 @@ import React,{
 	Text
 } from 'react-native';
 
-import Common from './../common';
+import Common from './../../common';
 
 export default class HeadList extends Component {
 	render() {
@@ -27,6 +27,7 @@ export default class HeadList extends Component {
 
 const styles = StyleSheet.create({
 	content:{
+		marginTop:20,
 		paddingLeft:10,
 		paddingRight:10,
 		backgroundColor:'#FFF'
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
 	title:{
 		height:45,
 		flexDirection:'row',
-		alignItems:'center'
+		alignItems:'center',
 	},
 	title_icon:{
 		height:20,
@@ -47,7 +48,8 @@ const styles = StyleSheet.create({
 		marginLeft:5,
 	},
 	more:{
-		width:50,
+		width:30,
+		color:'gray'
 	},
 	list:{
 		marginTop:5,

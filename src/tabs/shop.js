@@ -9,49 +9,47 @@ import React,{
 } from 'react-native';
 
 import Common from './../common';
-import Header from './head';
-import HeadList from './headList';
+import Header from './libs/head';
+import HeadList from './libs/headList';
+import CatList from './libs/catList';
 import NavigatorBar from './../libs/navigator';
 
+import Plugin from './../plugins/fm';
+
+
 class Recommend extends Component{
+	constructor(props){
+		super(props);
+		Plugin.getHome(e=>this.setState({data:e}));
+	}
 	render(){
-		let data = [
-			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
-			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
-			{name:'11111',auth:'aaa',pic:'http://facebook.github.io/react/img/logo_og.png'},
-		];
+		this.state&& console.log(this.state.data);
 		return(
-			<ScrollView style={{}}>
+			<ScrollView>
 			  	<View>
-					<Image style={{height:200}} source={{uri: 'http://78rbm4.com2.z0.glb.qiniucdn.com/62cfa23a823d43729f42b3b31c2581f6_720x238.jpg'}} />
-				</View>
-				<View style={{height:20}}></View>
-				<HeadList title={'小编推荐'} items={data} horizontal={true} renderItem={this._onRenderItem} />
-				<View style={{height:20}}></View>
-				<HeadList title={'听小说'} items={data} renderItem={this._onRenderItem2} />
+			  		<Image style={{height:150}} source={{uri: this.state && this.state.data && this.state.data.swiper[0].uri}} />
+			  	</View>
+				{this.state && this.state.data && this.state.data.cats.map((k,i)=>{
+					return <HeadList key={i} title={k} items={this.state.data.data[k]} horizontal={i<4} renderItem={i<4?this._onRenderItem:this._onRenderItem2} />
+				})}
 			</ScrollView>
 		);
 	}	
 	_onRenderItem(item,i){
 		return (
 			<View key={i} style={{flex:1}}>
-				<Image style={{width:120,height:100}} source={{uri: item.pic}} />
-				<Text style={{marginTop:5}}>{item.name}</Text>
-				<Text>{item.auth}</Text>
+				<Image style={{width:110,height:110}} source={{uri: item.face}} />
+				<Text style={{width:110,fontSize:13,color:'gray',marginTop:2}} numberOfLines={2} >{item.desc}</Text>
 			</View>
 		);
 	}
 	_onRenderItem2(item,i){
 		return (
-			<View key={i} style={{flexDirection:'row',marginBottom:10}}>
-				<Image style={{width:60,height:70}} source={{uri: item.pic}} />
-				<View style={{marginLeft:10}}>
-					<Text style={{fontSize:18,fontWeight:'bold',color:'#000'}}>{item.name}</Text>
-					<Text style={{fontSize:16}}>{item.auth}</Text>
-					<View style={{flexDirection:'row'}}>
-						<Text style={{fontSize:12}}>500集</Text>
-						<Text style={{fontSize:12}}>500赞</Text>
-					</View>
+			<View key={i} style={{flexDirection:'row',marginBottom:10,flex:1}}>
+				<Image style={{width:70,height:70}} source={{uri: item.face}} />
+				<View style={{marginLeft:10,marginTop:2,flex:1}}>
+					<Text style={{fontSize:16,color:'#000'}} numberOfLines={1}>{item.name}</Text>
+					<Text style={{fontSize:14,color:'gray',marginTop:5}} numberOfLines={2}>{item.desc}</Text>
 				</View>
 			</View>
 		);
@@ -59,19 +57,30 @@ class Recommend extends Component{
 
 }
 
+class Categorye extends Component{
+	render(){
+		return (
+			<ScrollView>
+			  	<CatList/>
+			</ScrollView>
+		);
+	}
+}
+
 export default class Shop extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-
+			head:Recommend
 		}
 	}
 	render(){
+		let Component = this.state.head;
 		return (
 			<View  style={{flex:1,backgroundColor:'#EEE'}}>
 				<NavigatorBar title={this.props.title} bgColor={Common.defaultProps.color} />
-				<Header items={Common.defaultProps.header} onPress={e=>this.setState({'head':e})} />
-				<Recommend/>
+				<Header items={Common.defaultProps.header} onPress={e=>this.setState({'head':[Recommend,Categorye][e]})} />
+				<Component/>
 			</View>
 		);
 	}
