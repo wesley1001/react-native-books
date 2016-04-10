@@ -58,7 +58,12 @@ class Recommend extends Component{
 }
 
 class Categorye extends Component{
+	constructor(props){
+		super(props);
+		Plugin.getCatgorye(e=>this.setState({data:e}));
+	}
 	render(){
+		this.state && console.log(this.state.data);
 		return (
 			<ScrollView>
 			  	<CatList/>

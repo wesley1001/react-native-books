@@ -12,12 +12,12 @@ export default class Plugin {
 				home
 			} = Plugin.regExps,
 				ret = {
-					swiper:[],
+					swiper: [],
 					cats: [],
 					data: {}
 				},
 				items = [];
-			body.match(new RegExp(swiper,'g')).forEach(i=>{
+			body.match(new RegExp(swiper, 'g')).forEach(i => {
 				var item = i.match(swiper);
 				ret.swiper.push({
 					cid: item[1],
@@ -46,10 +46,26 @@ export default class Plugin {
 			cb && cb(ret);
 		});
 	}
+	static getCatgorye(cb) {
+		fetch('http://m.qingting.fm/categories/521/attrs/0').then(resp => {
+			return resp.text()
+		}).then(body => {
+			let {
+				tags
+			} = Plugin.regExps,
+				ret = [];
+			body.match(new RegExp(tags, 'g')).forEach(i => {
+				var item = i.match(tags);
+				ret.push({uri:item[1],name:item[2]});
+			});
+			cb && cb(ret);
+		});
+	}
 }
 
 Plugin.regExps = {
 	'swiper': 'swiper-slide"\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w+)"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover swiper-lazy" data-background="(.*?)"></div>',
 	'cats': '<a class="more"\\s+.*?\\s+.*?\\s+data-aids="\\d+"\\s+>\\s+</a>\\s+(.*?)\\s+</div>',
-	'home': '<a class="recommend-item\\s+.*?\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w)+"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover stroke lazy" data-original="(.*?)">\\s+</div>\\s+<div class="title text-big text-black single-line">(.*?)</div>\\s+<div class="description text-small line-clamp">(.*?)</div>'
+	'home': '<a class="recommend-item\\s+.*?\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w)+"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover stroke lazy" data-original="(.*?)">\\s+</div>\\s+<div class="title text-big text-black single-line">(.*?)</div>\\s+<div class="description text-small line-clamp">(.*?)</div>',
+	'tags': 'nav-item"><a href="(.*?)">(.*?)</a>'
 }
