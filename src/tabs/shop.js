@@ -27,15 +27,13 @@ class Recommend extends Component{
 		return(
 			<ScrollView>
 			  	<Swiper height={180} showButton={true}>
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[0].uri}} />
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[1].uri}} />
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[2].uri}} />
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[3].uri}} />
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[4].uri}} />
-			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[5].uri}} />
+			  		{this.state && this.state.data && this.state.data.swiper.map((v,k)=>{
+			  			return (<Image key={k} style={{flex:1}} resizeMode={'stretch'} source={{uri: v.uri}}/>
+			  			);
+			  		})}
 			  	</Swiper>
-				{this.state && this.state.data && this.state.data.cats.map((k,i)=>{
-					return <HeadList key={i} title={k} items={this.state.data.data[k]} horizontal={i<4} renderItem={i<4?this._onRenderItem:this._onRenderItem2} />
+				{this.state && this.state.data && this.state.data.cats.map((v,k)=>{
+					return <HeadList key={k} title={v} items={this.state.data.data[v]} horizontal={k<4} renderItem={k<4?this._onRenderItem:this._onRenderItem2} />
 				})}
 			</ScrollView>
 		);
