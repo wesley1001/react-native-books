@@ -7,7 +7,7 @@ import React,{
 	Text,
 	ScrollView
 } from 'react-native';
-
+import Swiper from 'react-native-swiper';
 import Common from './../common';
 import Header from './libs/head';
 import HeadList from './libs/headList';
@@ -26,9 +26,14 @@ class Recommend extends Component{
 		this.state&& console.log(this.state.data);
 		return(
 			<ScrollView>
-			  	<View>
-			  		<Image style={{height:150}} source={{uri: this.state && this.state.data && this.state.data.swiper[0].uri}} />
-			  	</View>
+			  	<Swiper height={180} showButton={true}>
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[0].uri}} />
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[1].uri}} />
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[2].uri}} />
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[3].uri}} />
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[4].uri}} />
+			  		<Image style={{flex:1}} source={{uri: this.state && this.state.data && this.state.data.swiper[5].uri}} />
+			  	</Swiper>
 				{this.state && this.state.data && this.state.data.cats.map((k,i)=>{
 					return <HeadList key={i} title={k} items={this.state.data.data[k]} horizontal={i<4} renderItem={i<4?this._onRenderItem:this._onRenderItem2} />
 				})}
