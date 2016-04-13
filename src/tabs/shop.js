@@ -23,7 +23,6 @@ class Recommend extends Component{
 		Plugin.getHome(e=>this.setState({data:e}));
 	}
 	render(){
-		this.state&& console.log(this.state.data);
 		return(
 			<ScrollView>
 			  	<Swiper height={180} showButton={true} loopTime={4}>
@@ -66,7 +65,6 @@ class Categorye extends Component{
 		Plugin.getCatgorye(e=>this.setState({data:e}));
 	}
 	render(){
-		this.state && console.log(this.state.data);
 		return (
 			<ScrollView>
 			  	<CatList/>
