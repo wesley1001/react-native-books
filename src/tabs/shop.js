@@ -26,7 +26,7 @@ class Recommend extends Component{
 		this.state&& console.log(this.state.data);
 		return(
 			<ScrollView>
-			  	<Swiper height={180} showButton={true}>
+			  	<Swiper height={180} showButton={true} loopTime={4}>
 			  		{this.state && this.state.data && this.state.data.swiper.map((v,k)=>{
 			  			return (<Image key={k} style={{flex:1}} resizeMode={'stretch'} source={{uri: v.uri}}/>
 			  			);
