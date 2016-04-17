@@ -7,6 +7,7 @@ import React,{
 } from 'react-native';
 
 import MainComponent from './main';
+import Details from './details';
 
 export default class App extends Component {
 	constructor(props) {

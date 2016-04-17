@@ -56,8 +56,33 @@ export default class Plugin {
 				ret = [];
 			body.match(new RegExp(tags, 'g')).forEach(i => {
 				var item = i.match(tags);
-				ret.push({uri:item[1],name:item[2]});
+				ret.push({
+					uri: item[1],
+					name: item[2]
+				});
 			});
+			console.log('test', ret);
+			cb && cb(ret);
+		});
+	}
+	static getRanking(cb) {
+		fetch('http://m.qingting.fm/billboard/cat_retain/521').then(resp => {
+			return resp.text()
+		}).then(body => {
+			let {
+				ranks
+			} = Plugin.regExps,
+				ret = [];
+			body.match(new RegExp(ranks, 'g')).forEach(i => {
+				var item = i.match(ranks);
+				ret.push({
+					id: item[1],
+					name: item[2],
+					face: item[3],
+					desc: item[4]
+				});
+			});
+			console.log('test', ret);
 			cb && cb(ret);
 		});
 	}
@@ -67,5 +92,6 @@ Plugin.regExps = {
 	'swiper': 'swiper-slide"\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w+)"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover swiper-lazy" data-background="(.*?)"></div>',
 	'cats': '<a class="more"\\s+.*?\\s+.*?\\s+data-aids="\\d+"\\s+>\\s+</a>\\s+(.*?)\\s+</div>',
 	'home': '<a class="recommend-item\\s+.*?\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w)+"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover stroke lazy" data-original="(.*?)">\\s+</div>\\s+<div class="title text-big text-black single-line">(.*?)</div>\\s+<div class="description text-small line-clamp">(.*?)</div>',
-	'tags': 'nav-item"><a href="(.*?)">(.*?)</a>'
+	'tags': 'nav-item"><a href="(.*?)">(.*?)</a>',
+	'ranks': 'class="album" data-channel-id=(\\w+) data-channel-type=0 data-channel-name="(.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+<img src="(http://pic.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+<div class="album-desc">\\s([\\w\\W]+?)</div>'
 }

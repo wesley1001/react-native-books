@@ -26,10 +26,10 @@ export default class MainComponent extends Component {
 			<View style={{flex:1}}>
 				<TabBar activeColor={Common.defaultProps.color}>
 					<TabBar.Item icon={{uri:'http://www.iconpng.com/png/inkalligraphic_icon/426-smiley.png'}} title={Common.defaultProps.tabs[0]}>
-						<Shop title={Common.defaultProps.tabs[0]}/>
+						<Shop title={Common.defaultProps.tabs[0]} navigator={this.props.navigator}/>
 					</TabBar.Item>
 					<TabBar.Item icon={{uri:'http://www.iconpng.com/png/inkalligraphic_icon/126-smiley.png'}} title={Common.defaultProps.tabs[1]}>
-						<Find title={Common.defaultProps.tabs[1]}/>
+						<Find title={Common.defaultProps.tabs[1]} navigator={this.props.navigator}/>
 					</TabBar.Item>
 					<TabBar.Item></TabBar.Item>
 					<TabBar.Item icon={{uri:'http://www.iconpng.com/png/font_awesome/f118.png'}} title={Common.defaultProps.tabs[2]}></TabBar.Item>
