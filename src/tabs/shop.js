@@ -1,5 +1,6 @@
-'use strict'
+	'use strict'
 import React,{
+	AsyncStorage,
 	Component,
 	StyleSheet,
 	View,
@@ -18,14 +19,27 @@ import Plugin from './../plugins/fm';
 
 
 class Recommend extends Component{
-	constructor(props){
+	constructor(props) {
 		super(props);
-		Plugin.getHome(e=>this.setState({data:e}));
+		AsyncStorage.getItem('shop', (err, ret) => {
+			if (ret) {
+				this.setState({
+					data: JSON.parse(ret)
+				});
+			} else {
+				Plugin.getHome(e => {
+					this.setState({
+						data: e
+					});
+					AsyncStorage.setItem('shop', JSON.stringify(e));
+				});
+			}
+		});
 	}
 	render(){
 		return(
 			<ScrollView>
-			  	<Swiper height={180} showButton={true} loopTime={4}>
+			  	<Swiper height={180} showButton={true}  loopTime={4} >
 			  		{this.state && this.state.data && this.state.data.swiper.map((v,k)=>{
 			  			return (<Image key={k} style={{flex:1}} resizeMode={'stretch'} source={{uri: v.uri}}/>
 			  			);
