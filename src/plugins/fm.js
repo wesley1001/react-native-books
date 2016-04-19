@@ -82,6 +82,23 @@ export default class Plugin {
 					desc: item[4]
 				});
 			});
+			cb && cb(ret);
+		});
+	}
+	static getBookInfo(bid, cb) {
+		fetch('http://m.qingting.fm/vchannels/' + bid).then(resp => {
+			return resp.text()
+		}).then(body => {
+			let {
+				bookInfo_desc,
+				bookInfo_list
+			} = Plugin.regExps,
+				ret = {'chapters':[]};
+			body.match(new RegExp(bookInfo_list, 'g')).forEach(i => {
+				var item = i.match(bookInfo_list);
+				ret.chapters.push(item[1]);
+			});
+			ret['desc'] = body.match(bookInfo_desc)[1];
 			console.log('test', ret);
 			cb && cb(ret);
 		});
@@ -93,5 +110,7 @@ Plugin.regExps = {
 	'cats': '<a class="more"\\s+.*?\\s+.*?\\s+data-aids="\\d+"\\s+>\\s+</a>\\s+(.*?)\\s+</div>',
 	'home': '<a class="recommend-item\\s+.*?\\s+.*?\\s+href=".*?"\\s+data-cid="(\\w+)"\\s+data-id="(\\w)+"\\s+data-catid="(\\w+)"\\s+>\\s+<div class="cover stroke lazy" data-original="(.*?)">\\s+</div>\\s+<div class="title text-big text-black single-line">(.*?)</div>\\s+<div class="description text-small line-clamp">(.*?)</div>',
 	'tags': 'nav-item"><a href="(.*?)">(.*?)</a>',
-	'ranks': 'class="album" data-channel-id=(\\w+) data-channel-type=0 data-channel-name="(.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+<img src="(http://pic.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+<div class="album-desc">\\s([\\w\\W]+?)</div>'
+	'ranks': 'class="album" data-channel-id=(\\w+) data-channel-type=0 data-channel-name="(.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+.*?\\s+<img src="(http://pic.*?)".*?\\s+.*?\\s+.*?\\s+.*?\\s+<div class="album-desc">\\s([\\w\\W]+?)</div>',
+	'bookInfo_desc': 'description line-clamp">([\\w\\W]+?)</div>',
+	'bookInfo_list': 'data-file="(.*?)"'
 }
