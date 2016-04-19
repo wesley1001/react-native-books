@@ -25,38 +25,54 @@ import Plugin from './../plugins/fm';
 class Recommend extends Component{
 	constructor(props) {
 		super(props);
+		let ds = new ListView.DataSource({
+			rowHasChanged: (r1, r2) => r1 !== r2
+		});
+		this.state = {
+			dataSource:ds.cloneWithRows([])
+		}
 		AsyncStorage.getItem('shop', (err, ret) => {
 			if (ret) {
+				ret = JSON.parse(ret)
 				this.setState({
-					data: JSON.parse(ret)
+					data: ret,
+					dataSource: ds.cloneWithRows(ret.cats)
 				});
 			} else {
 				Plugin.getHome(e => {
 					this.setState({
-						data: e
+						data: e,
+						dataSource: ds.cloneWithRows(e.cats)
 					});
 					AsyncStorage.setItem('shop', JSON.stringify(e));
 				});
 			}
 		});
 	}
+	_renderHeader(){
+		return(
+			<Swiper height={180} showButton={true}  loopTime={4} >
+		  		{this.state && this.state.data && this.state.data.swiper.map((v,k)=>{
+		  			return (<Image key={k} style={{flex:1}} resizeMode={'stretch'} source={{uri: v.uri}}/>
+		  			);
+		  		})}
+		  	</Swiper>
+		);
+	}
+	_renderRow(item, key) {
+		let horizontal = this.state.data.cats.indexOf(item) < 4,
+			renderItem = horizontal ? this._onRenderItem.bind(this) : this._onRenderItem2.bind(this);
+		return (
+			<HeadList key={key} title={item} items={this.state.data.data[item]} renderItem={renderItem} horizontal={horizontal} />
+		);
+	}
 	render(){
 		return(
-			<ScrollView>
-			  	<Swiper height={180} showButton={true}  loopTime={4} >
-			  		{this.state && this.state.data && this.state.data.swiper.map((v,k)=>{
-			  			return (<Image key={k} style={{flex:1}} resizeMode={'stretch'} source={{uri: v.uri}}/>
-			  			);
-			  		})}
-			  	</Swiper>
-				{this.state && this.state.data && this.state.data.cats.map((v,k)=>{
-					return <HeadList key={k} title={v} items={this.state.data.data[v]} horizontal={k<4} renderItem={k<4?this._onRenderItem.bind(this):this._onRenderItem2.bind(this)} />
-				})}
-			</ScrollView>
+			<ListView style={{flex:1}} dataSource={this.state.dataSource} renderHeader={this._renderHeader.bind(this)} renderRow={this._renderRow.bind(this)} />  	
 		);
 	}	
 	_onPress(item){
-		this.props && this.props.navigator && this.props.navigator.push({title:item.name,component:Details})
+		// this.props && this.props.navigator && this.props.navigator.push({title:item.name,component:Details})
 	}
 	_onRenderItem(item,i){
 		return (
